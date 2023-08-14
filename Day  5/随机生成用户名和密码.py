@@ -27,7 +27,7 @@ def code():
         list.append(s)
 
     for i in range(1,5+1):
-        s=random.randint(1,15)
+        s=random.randint(1,9)
         list.append(str(s))
 
     for i in range(1,5+1):

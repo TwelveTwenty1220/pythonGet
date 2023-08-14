@@ -41,13 +41,15 @@ def download_second_m3u8(url):
     print('m3u8.index下载完毕')
 
 async def download_ts(url,name,session):
-    async with session.get(url) as resp:
-        async with aiofiles.open(f"video4\\{name}",'wb') as f:
-            await f.write(await resp.content.read())
-    print(f'{name}下载完毕')
+        async with session.get(url) as resp:
+            async with aiofiles.open(f"video\\{name}",'wb') as f:
+                await asyncio.sleep(1)
+                await f.write(await resp.content.read())
+
+        print(f'{name}下载完毕')
 
 
-    pass
+
 async def download_video(second_up):
     tasks=[]
     async with aiohttp.ClientSession() as session:
@@ -71,7 +73,6 @@ def merge_ts():
     print('开始合并')
     with open('2.m3u8','r',encoding='utf-8') as f :
         list=[]
-        target='风骚女子.mp4'
         for line in f:
             if(line.startswith('#')):
                 continue
@@ -79,7 +80,7 @@ def merge_ts():
                 line=line.strip()
                 list.append(line)
 
-        with open('video4\\3.txt','w',) as f:
+        with open('video\\index.txt','w',) as f:
             for i in list:
                 content=f"file '{i}'"
                 f.write(content+'\n')
@@ -94,7 +95,7 @@ def merge_ts():
 
 
 if __name__ == '__main__':
-    url='https://mjw21.com/dp/NDcxOC0xLTI=.html'
+    url='https://mjw21.com/dp/NTA5OC0xLTA=.html'
     first_m3u8=get_first_m3u8(url)
     second_up=get_second_m3u8(first_m3u8)
     asyncio.run(download_video(second_up))
